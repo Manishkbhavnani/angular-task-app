@@ -1,0 +1,64 @@
+
+<header>
+  <nav class="navbar navbar-default">
+    <a class="navbar-brand" href="#">Task Management</a>
+    
+    <button type="button" [routerLink] ="['/add']" class="btn btn-primary text-center"> Add Task</button>
+  
+</nav>
+  
+</header>
+
+<div class="container">
+  <div class="row">
+    <nav class="navbar">
+      <input class="form-control"  placeholder="Search" type="text" name="search" [(ngModel)]="filter">      
+    </nav>
+   
+    <table class="table">
+      <thead>
+        <tr>
+          <th><b>Task Id</b></th>
+          <th (click)="sort('task_name')"><b>Task Name</b>
+          &nbsp;&nbsp;&nbsp;  <i class="material-icons" >sort</i>
+          </th>
+          <th (click)="sort('task_description')"><b>Description</b> 
+            &nbsp;&nbsp;&nbsp;  <i class="material-icons" >sort</i>
+          </th>
+          <th (click)="sort('task_status')"><b>Status</b> 
+            &nbsp;&nbsp;&nbsp;  <i class="material-icons" >sort</i>
+          </th>
+
+  
+
+          <th (click)="sort('from')"><b>Schedule  From</b> 
+            &nbsp;&nbsp;&nbsp;  <i class="material-icons" >sort</i>
+          </th>
+          <th (click)="sort('to')"><b>Schedule  To</b> 
+            &nbsp;&nbsp;&nbsp;  <i class="material-icons" >sort</i>
+          </th>
+
+
+
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of taskListData | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+          <td>{{task?._id}}</td>
+          <td>{{task?.task_name}}</td>
+          <td>{{task?.task_description}}</td>
+          <td>{{task?.task_status}}</td>
+          <td>{{task?.from | date : 'dd-MM-yyyy'}}
+          <td>{{task?.to | date : 'dd-MM-yyyy'}}
+    
+            <td><i class="material-icons" [routerLink]="['/edit' , task._id]" >edit</i></td>
+            <td><i class="material-icons" (click)="deleteTask(task._id)" >delete</i></td>
+          
+        </tr>
+      </tbody>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </table>
+  </div>
+</div>
